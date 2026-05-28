@@ -1,0 +1,24 @@
+{
+  "name": "@pothys/db-base",
+  "version": "1.0.0",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "author": "riyaz ahmed",
+  "scripts": {
+    "build": "tsc -p tsconfig.json"
+  },
+  "dependencies": {
+    "@nestjs/typeorm": "^11.0.0",
+    "pg": "^8.11.3",
+    "typeorm": "^0.3.25",
+    "typeorm-naming-strategies": "^4.1.0",
+    "uuid": "^10.0.0"
+  },
+  "peerDependencies": {
+    "@nestjs/config": "^4.0.2"
+  },
+  "devDependencies": {
+    "@types/uuid": "^10.0.0",
+    "@types/pg": "^8.10.9"
+  }
+}
