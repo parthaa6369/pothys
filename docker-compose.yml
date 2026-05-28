@@ -1,0 +1,149 @@
+# Common microservice template for dev
+x-microservice-template: &microservice-template
+  depends_on:
+    postgres:
+      condition: service_healthy
+  env_file:
+    - .env
+  environment:
+    - NODE_ENV=development
+    - PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
+    - PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium-browser
+    - CHROMIUM_PATH=/usr/bin/chromium-browser
+  build:
+    context: .
+    target: dev
+  volumes:
+    - ./libs:/app/libs
+    - ./tsconfig.base.json:/app/tsconfig.base.json
+    - ./package.json:/app/package.json
+    - ./pnpm-lock.yaml:/app/pnpm-lock.yaml
+    - ./pnpm-workspace.yaml:/app/pnpm-workspace.yaml
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: pothys-postgres
+    restart: always
+    environment:
+      POSTGRES_DB: pothys_main
+      POSTGRES_USER: ${DB_USER:-pothys}
+      POSTGRES_PASSWORD: ${DB_PASS:-password}
+    ports:
+      - '5432:5432'
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./docker/postgres-init.sql:/docker-entrypoint-initdb.d/init.sql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER:-pothys}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: pothys-pgadmin
+    restart: always
+    depends_on:
+      - postgres
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@pothys.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    ports:
+      - '8080:80'
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin
+
+  identity-service:
+    <<: *microservice-template
+    build:
+      context: .
+      dockerfile: apps/identity-service/Dockerfile
+      target: dev
+    container_name: identity-service-dev
+    working_dir: /app/apps/identity-service
+    volumes:
+      - ./apps/identity-service:/app/apps/identity-service
+      - ./libs:/app/libs
+      - ./tsconfig.base.json:/app/tsconfig.base.json
+      - ./package.json:/app/package.json
+      - ./pnpm-lock.yaml:/app/pnpm-lock.yaml
+      - ./pnpm-workspace.yaml:/app/pnpm-workspace.yaml
+    ports:
+      - '3001:3000'
+
+  cms-service:
+    <<: *microservice-template
+    build:
+      context: .
+      dockerfile: apps/cms-service/Dockerfile
+      target: dev
+    container_name: cms-service-dev
+    working_dir: /app/apps/cms-service
+    volumes:
+      - ./apps/cms-service:/app/apps/cms-service
+      - ./libs:/app/libs
+      - ./tsconfig.base.json:/app/tsconfig.base.json
+      - ./package.json:/app/package.json
+      - ./pnpm-lock.yaml:/app/pnpm-lock.yaml
+      - ./pnpm-workspace.yaml:/app/pnpm-workspace.yaml
+    ports:
+      - '3002:3000'
+
+  portfolio-service:
+    <<: *microservice-template
+    build:
+      context: .
+      dockerfile: apps/portfolio-service/Dockerfile
+      target: dev
+    container_name: portfolio-service-dev
+    working_dir: /app/apps/portfolio-service
+    volumes:
+      - ./apps/portfolio-service:/app/apps/portfolio-service
+      - ./libs:/app/libs
+      - ./tsconfig.base.json:/app/tsconfig.base.json
+      - ./package.json:/app/package.json
+      - ./pnpm-lock.yaml:/app/pnpm-lock.yaml
+      - ./pnpm-workspace.yaml:/app/pnpm-workspace.yaml
+    ports:
+      - '3003:3000'
+
+  payment-service:
+    <<: *microservice-template
+    build:
+      context: .
+      dockerfile: apps/payment-service/Dockerfile
+      target: dev
+    container_name: payment-service-dev
+    working_dir: /app/apps/payment-service
+    volumes:
+      - ./apps/payment-service:/app/apps/payment-service
+      - ./libs:/app/libs
+      - ./tsconfig.base.json:/app/tsconfig.base.json
+      - ./package.json:/app/package.json
+      - ./pnpm-lock.yaml:/app/pnpm-lock.yaml
+      - ./pnpm-workspace.yaml:/app/pnpm-workspace.yaml
+    ports:
+      - '3004:3000'
+
+  transaction-service:
+    <<: *microservice-template
+    build:
+      context: .
+      dockerfile: apps/transaction-service/Dockerfile
+      target: dev
+    container_name: transaction-service-dev
+    working_dir: /app/apps/transaction-service
+    volumes:
+      - ./apps/transaction-service:/app/apps/transaction-service
+      - ./libs:/app/libs
+      - ./tsconfig.base.json:/app/tsconfig.base.json
+      - ./package.json:/app/package.json
+      - ./pnpm-lock.yaml:/app/pnpm-lock.yaml
+      - ./pnpm-workspace.yaml:/app/pnpm-workspace.yaml
+    ports:
+      - '3005:3000'
+
+volumes:
+  postgres_data:
+  pgadmin_data:

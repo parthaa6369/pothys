@@ -1,0 +1,43 @@
+{
+  "compilerOptions": {
+    // Use CommonJS-compatible Node16 module kind
+    "module": "Node16",
+    "moduleResolution": "node16",
+
+    // Enable modern exports resolution from package.json
+    "resolvePackageJsonExports": true,
+
+    // Compatibility
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+
+    // Decorators
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "isolatedModules": true,
+
+    // Output settings
+    "declaration": true,
+    "removeComments": true,
+    "sourceMap": true,
+    "outDir": "./dist",
+    "rootDir": "./src",
+
+    // Modern syntax target but safe for Node LTS
+    "target": "ES2020",
+
+    // Build performance
+    "incremental": true,
+    "skipLibCheck": true,
+
+    // Code quality
+    "strictNullChecks": true,
+    "forceConsistentCasingInFileNames": true,
+    "noImplicitAny": false,
+    "strictBindCallApply": false,
+    "noFallthroughCasesInSwitch": false,
+
+    // Monorepo base resolution
+    "baseUrl": "./"
+  }
+}

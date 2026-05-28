@@ -1,0 +1,191 @@
+# Common microservice template for dev
+x-microservice-template: &microservice-template
+  depends_on:
+    # mysql:
+    #   condition: service_healthy
+    phpmyadmin:
+      condition: service_started
+  env_file:
+    - .env
+  environment:
+    - NODE_ENV=development
+    - PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
+    - PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium-browser
+    - CHROMIUM_PATH=/usr/bin/chromium-browser
+  build:
+    context: .
+    target: dev
+  volumes:
+    - ./libs:/app/libs
+    - ./tsconfig.base.json:/app/tsconfig.base.json
+    - ./package.json:/app/package.json
+    - ./pnpm-lock.yaml:/app/pnpm-lock.yaml
+    - ./pnpm-workspace.yaml:/app/pnpm-workspace.yaml
+    # - ./node_modules:/app/node_modules
+
+services:
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin:latest
+    container_name: phpmyadmin
+    restart: always
+    # No depends_on needed since connecting to remote DB
+    environment:
+      PMA_HOST: ${DB_HOST}
+      PMA_PORT: 3306
+      PMA_USER: ${DB_USER}
+      PMA_PASSWORD: ${DB_PASS}
+      PMA_ARBITRARY: 1
+    ports:
+      - '8080:80'
+
+  identity-service:
+    <<: *microservice-template
+    build:
+      context: .
+      dockerfile: microservices/identity-service/Dockerfile
+      target: dev
+    container_name: identity-service-dev
+    working_dir: /app/microservices/identity-service
+    volumes:
+      - ./microservices/identity-service:/app/microservices/identity-service
+      - ./libs:/app/libs
+      - ./tsconfig.base.json:/app/tsconfig.base.json
+      - ./package.json:/app/package.json
+      - ./pnpm-lock.yaml:/app/pnpm-lock.yaml
+      - ./pnpm-workspace.yaml:/app/pnpm-workspace.yaml
+      - ./node_modules:/app/node_modules
+    ports:
+      - '3001:3000' # HTTP API
+
+  diffusion-service:
+    <<: *microservice-template
+    build:
+      context: .
+      dockerfile: microservices/diffusion-service/Dockerfile
+      target: dev
+    container_name: diffusion-service-dev
+    working_dir: /app/microservices/diffusion-service
+    volumes:
+      - ./microservices/diffusion-service:/app/microservices/diffusion-service
+      - ./libs:/app/libs
+      - ./tsconfig.base.json:/app/tsconfig.base.json
+      - ./package.json:/app/package.json
+      - ./pnpm-lock.yaml:/app/pnpm-lock.yaml
+      - ./pnpm-workspace.yaml:/app/pnpm-workspace.yaml
+      # - ./node_modules:/app/node_modules
+    ports:
+      - '3002:3000' # HTTP API
+
+  notification-service:
+    <<: *microservice-template
+    build:
+      context: .
+      dockerfile: microservices/notification-service/Dockerfile
+      target: dev
+    container_name: notification-service-dev
+    working_dir: /app/microservices/notification-service
+    volumes:
+      - ./microservices/notification-service:/app/microservices/notification-service
+      - ./libs:/app/libs
+      - ./tsconfig.base.json:/app/tsconfig.base.json
+      - ./package.json:/app/package.json
+      - ./pnpm-lock.yaml:/app/pnpm-lock.yaml
+      - ./pnpm-workspace.yaml:/app/pnpm-workspace.yaml
+      - ./node_modules:/app/node_modules
+    ports:
+      - '3004:3000' # HTTP API
+
+  document-service:
+    <<: *microservice-template
+    build:
+      context: .
+      dockerfile: microservices/document-service/Dockerfile
+      target: dev
+    container_name: document-service-dev
+    working_dir: /app/microservices/document-service
+    volumes:
+      - ./microservices/document-service:/app/microservices/document-service
+      - ./libs:/app/libs
+      - ./tsconfig.base.json:/app/tsconfig.base.json
+      - ./package.json:/app/package.json
+      - ./pnpm-lock.yaml:/app/pnpm-lock.yaml
+      - ./pnpm-workspace.yaml:/app/pnpm-workspace.yaml
+      - ./node_modules:/app/node_modules
+    ports:
+      - '3005:3000' # HTTP API
+
+  analytics-service:
+    <<: *microservice-template
+    build:
+      context: .
+      dockerfile: microservices/analytics-service/Dockerfile
+      target: dev
+    container_name: analytics-service-dev
+    working_dir: /app/microservices/analytics-service
+    volumes:
+      - ./microservices/analytics-service:/app/microservices/analytics-service
+      - ./libs:/app/libs
+      - ./tsconfig.base.json:/app/tsconfig.base.json
+      - ./package.json:/app/package.json
+      - ./pnpm-lock.yaml:/app/pnpm-lock.yaml
+      - ./pnpm-workspace.yaml:/app/pnpm-workspace.yaml
+      - ./node_modules:/app/node_modules
+    ports:
+      - '3006:3000' # HTTP API
+
+  traceability-service:
+    <<: *microservice-template
+    build:
+      context: .
+      dockerfile: microservices/traceability-service/Dockerfile
+      target: dev
+    container_name: traceability-service-dev
+    working_dir: /app/microservices/traceability-service
+    volumes:
+      - ./microservices/traceability-service:/app/microservices/traceability-service
+      - ./libs:/app/libs
+      - ./tsconfig.base.json:/app/tsconfig.base.json
+      - ./package.json:/app/package.json
+      - ./pnpm-lock.yaml:/app/pnpm-lock.yaml
+      - ./pnpm-workspace.yaml:/app/pnpm-workspace.yaml
+      - ./node_modules:/app/node_modules
+    ports:
+      - '3007:3000' # HTTP API
+
+  compliance-service:
+    <<: *microservice-template
+    build:
+      context: .
+      dockerfile: microservices/compliance-service/Dockerfile
+      target: dev
+    container_name: compliance-service-dev
+    working_dir: /app/microservices/compliance-service
+    volumes:
+      - ./microservices/compliance-service:/app/microservices/compliance-service
+      - ./libs:/app/libs
+      - ./tsconfig.base.json:/app/tsconfig.base.json
+      - ./package.json:/app/package.json
+      - ./pnpm-lock.yaml:/app/pnpm-lock.yaml
+      - ./pnpm-workspace.yaml:/app/pnpm-workspace.yaml
+      - ./node_modules:/app/node_modules
+    ports:
+      - '3008:3000' # HTTP API
+
+  livelihood-service:
+    <<: *microservice-template
+    build:
+      context: .
+      dockerfile: microservices/livelihood-service/Dockerfile
+      target: dev
+    container_name: livelihood-service-dev
+    working_dir: /app/microservices/livelihood-service
+    volumes:
+      - ./microservices/livelihood-service:/app/microservices/livelihood-service
+      - ./libs:/app/libs
+      - ./tsconfig.base.json:/app/tsconfig.base.json
+      - ./package.json:/app/package.json
+      - ./pnpm-lock.yaml:/app/pnpm-lock.yaml
+      - ./pnpm-workspace.yaml:/app/pnpm-workspace.yaml
+      - ./node_modules:/app/node_modules
+    ports:
+      - '3009:3000' # HTTP API
