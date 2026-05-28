@@ -1,0 +1,72 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: asb-microservice-ingress
+  namespace: staging
+  annotations:
+    kubernetes.io/ingress.class: alb
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/target-type: ip
+    alb.ingress.kubernetes.io/listen-ports: '[{"HTTP": 80}]'
+    alb.ingress.kubernetes.io/rewrite-target: /$2
+    # alb.ingress.kubernetes.io/healthcheck-path: /health
+spec:
+  rules:
+    - http:
+        paths:
+          - path: /analytics
+            pathType: Prefix
+            backend:
+              service:
+                name: analytics-service
+                port:
+                  number: 80
+          - path: /compliance
+            pathType: Prefix
+            backend:
+              service:
+                name: compliance-service
+                port:
+                  number: 80
+          - path: /document
+            pathType: Prefix
+            backend:
+              service:
+                name: document-service
+                port:
+                  number: 80
+          - path: /event
+            pathType: Prefix
+            backend:
+              service:
+                name: event-service
+                port:
+                  number: 80
+          - path: /farmer
+            pathType: Prefix
+            backend:
+              service:
+                name: farmer-service
+                port:
+                  number: 80
+          - path: /identity(/|$)(.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: identity-service
+                port:
+                  number: 80
+          - path: /notification
+            pathType: Prefix
+            backend:
+              service:
+                name: notification-service
+                port:
+                  number: 80
+          - path: /traceability
+            pathType: Prefix
+            backend:
+              service:
+                name: traceability-service
+                port:
+                  number: 80
