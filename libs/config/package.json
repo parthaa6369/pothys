@@ -1,0 +1,13 @@
+{
+  "name": "@pothys/config",
+  "version": "1.0.0",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "author": "riyaz ahmed",
+  "scripts": {
+    "build": "tsc -p tsconfig.json"
+  },
+  "dependencies": {
+    "@nestjs/config": "^4.0.2"
+  }
+}
