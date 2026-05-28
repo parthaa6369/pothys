@@ -1,0 +1,16 @@
+{
+  "name": "libs",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "build:swagger": "pnpm --filter @pothys/swagger-base build",
+    "build:db": "pnpm --filter @pothys/db-base build",
+    "build:config": "pnpm --filter @pothys/config build",
+    "build:logger": "pnpm --filter @pothys/logger build",
+    "build:type-kit": "pnpm --filter @pothys/type-kit build",
+    "build:core": "pnpm --filter @pothys/core build",
+    "build:auth": "pnpm --filter @pothys/auth build",
+    "build:api-client": "pnpm --filter @pothys/api-client build",
+    "build:all": "pnpm run build:type-kit && pnpm run build:config && pnpm run build:swagger && pnpm run build:db && pnpm run build:logger && pnpm run build:auth && pnpm run build:api-client && pnpm run build:core"
+  }
+}
