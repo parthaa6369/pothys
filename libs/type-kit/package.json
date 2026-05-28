@@ -1,0 +1,12 @@
+{
+  "name": "@pothys/type-kit",
+  "version": "0.0.1",
+  "description": "Shared types, interfaces, and enums for pothys-backend",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc -p tsconfig.json"
+  },
+  "author": "riyaz ahmed",
+  "license": "UNLICENSED"
+}
