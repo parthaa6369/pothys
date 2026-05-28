@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: compliance-service
+  namespace: staging
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: compliance-service
+  template:
+    metadata:
+      labels:
+        app: compliance-service
+    spec:
+      containers:
+        - name: compliance-service
+          image: 311141556953.dkr.ecr.ap-southeast-5.amazonaws.com/asb-microservice/compliance-service:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 3000
+          resources:
+            requests:
+              cpu: '50m'
+              memory: '64Mi'
+            limits:
+              cpu: '250m'
+              memory: '256Mi'
+          envFrom:
+            - secretRef:
+                name: asb-secrets

@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: diffusion-service
+  namespace: staging
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: diffusion-service
+  template:
+    metadata:
+      labels:
+        app: diffusion-service
+    spec:
+      containers:
+        - name: diffusion-service
+          image: 311141556953.dkr.ecr.ap-southeast-5.amazonaws.com/asb-microservice/diffusion-service:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 3000
+          resources:
+            requests:
+              cpu: '100m'
+              memory: '512Mi'
+            limits:
+              cpu: '1000m'
+              memory: '1024Mi'
+          envFrom:
+            - secretRef:
+                name: asb-secrets

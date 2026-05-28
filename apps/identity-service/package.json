@@ -1,0 +1,46 @@
+{
+  "dependencies": {
+    "@nestjs/mapped-types": "*"
+  },
+  "name": "identity-service",
+  "version": "0.0.1",
+  "description": "",
+  "author": "riyaz ahmed",
+  "private": true,
+  "license": "UNLICENSED",
+  "scripts": {
+    "build": "nest build",
+    "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
+    "build:watch": "nest build --watch",
+    "start": "nest start",
+    "start:dev": "nest start --watch",
+    "start:debug": "nest start --debug --watch",
+    "start:prod": "node dist/main",
+    "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:cov": "jest --coverage",
+    "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
+    "test:e2e": "jest --config ./test/jest-e2e.json",
+    "start:dev:dist": "sh -c 'pnpm run build && pnpm run build:watch & sleep 3 && npx nodemon --watch dist dist/main.js'",
+    "migration:run": "npx ts-node -r tsconfig-paths/register ../../node_modules/@pothys/db-base/node_modules/typeorm/cli.js migration:run -d ./src/database/data-source.ts",
+    "migration:run:compiled": "node ../../node_modules/@pothys/db-base/node_modules/typeorm/cli.js migration:run -d ./dist/database/data-source.js"
+  },
+  "jest": {
+    "moduleFileExtensions": [
+      "js",
+      "json",
+      "ts"
+    ],
+    "rootDir": "src",
+    "testRegex": ".*\\.spec\\.ts$",
+    "transform": {
+      "^.+\\.(t|j)s$": "ts-jest"
+    },
+    "collectCoverageFrom": [
+      "**/*.(t|j)s"
+    ],
+    "coverageDirectory": "../coverage",
+    "testEnvironment": "node"
+  }
+}
