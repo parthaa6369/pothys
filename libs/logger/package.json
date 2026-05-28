@@ -1,0 +1,12 @@
+{
+  "name": "@pothys/logger",
+  "version": "0.0.1",
+  "description": "Comprehensive logging utility for pothys-backend",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc -p tsconfig.json"
+  },
+  "author": "riyaz ahmed",
+  "license": "UNLICENSED"
+}
