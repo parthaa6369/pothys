@@ -1,0 +1,117 @@
+# Service Deployment Configuration
+# This file defines dependencies and deployment rules for the Pothys microservices
+
+# Available Services
+services:
+  - name: "cms-service"
+    path: "apps/cms-service"
+    dockerfile: "apps/cms-service/prod.Dockerfile"
+    deployment: "cms-service"
+    namespace: "staging"
+    dependencies:
+      - "libs/api-client"
+      - "libs/auth"
+      - "libs/config"
+      - "libs/core"
+      - "libs/db-base"
+      - "libs/logger"
+      - "libs/type-kit"
+
+  - name: "identity-service"
+    path: "apps/identity-service"
+    dockerfile: "apps/identity-service/prod.Dockerfile"
+    deployment: "identity-service"
+    namespace: "staging"
+    dependencies:
+      - "libs/api-client"
+      - "libs/auth"
+      - "libs/config"
+      - "libs/core"
+      - "libs/db-base"
+      - "libs/logger"
+      - "libs/type-kit"
+
+  - name: "payment-service"
+    path: "apps/payment-service"
+    dockerfile: "apps/payment-service/prod.Dockerfile"
+    deployment: "payment-service"
+    namespace: "staging"
+    dependencies:
+      - "libs/api-client"
+      - "libs/auth"
+      - "libs/config"
+      - "libs/core"
+      - "libs/db-base"
+      - "libs/logger"
+      - "libs/type-kit"
+
+  - name: "portfolio-service"
+    path: "apps/portfolio-service"
+    dockerfile: "apps/portfolio-service/prod.Dockerfile"
+    deployment: "portfolio-service"
+    namespace: "staging"
+    dependencies:
+      - "libs/api-client"
+      - "libs/auth"
+      - "libs/config"
+      - "libs/core"
+      - "libs/db-base"
+      - "libs/logger"
+      - "libs/type-kit"
+
+  - name: "transaction-service"
+    path: "apps/transaction-service"
+    dockerfile: "apps/transaction-service/prod.Dockerfile"
+    deployment: "transaction-service"
+    namespace: "staging"
+    dependencies:
+      - "libs/api-client"
+      - "libs/auth"
+      - "libs/config"
+      - "libs/core"
+      - "libs/db-base"
+      - "libs/logger"
+      - "libs/type-kit"
+
+# Global dependencies that trigger full rebuild
+global_dependencies:
+  - "package.json"
+  - "pnpm-lock.yaml"
+  - "pnpm-workspace.yaml"
+  - "tsconfig.base.json"
+  - "docker/"
+  - "k8s/"
+  - "libs/"
+
+# Deployment environments
+environments:
+  staging:
+    cluster: "asb-microservices-cluster"
+    namespace: "staging"
+    region: "ap-southeast-5"
+    registry: "311141556953.dkr.ecr.ap-southeast-5.amazonaws.com"
+
+  production:
+    cluster: "asb-microservices-prod-cluster"
+    namespace: "production"
+    region: "ap-southeast-5"
+    registry: "311141556953.dkr.ecr.ap-southeast-5.amazonaws.com"
+
+# Service interdependencies
+# If a service changes, which other services might need to be updated
+service_dependencies:
+  identity-service:
+    # Other services that depend on identity-service
+    affects: []
+  
+  cms-service:
+    affects: []
+    
+  payment-service:
+    affects: []
+    
+  portfolio-service:
+    affects: []
+    
+  transaction-service:
+    affects: []
