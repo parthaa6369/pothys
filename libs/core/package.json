@@ -1,0 +1,17 @@
+{
+  "name": "@pothys/core",
+  "version": "1.0.0",
+  "description": "Core utilities and middleware for pothys-backend",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "author": "riyaz ahmed",
+  "scripts": {
+    "build": "tsc -p tsconfig.json"
+  },
+  "dependencies": {
+    "exceljs": "^4.4.0",
+    "fast-csv": "^5.0.5",
+    "helmet": "^8.1.0"
+  },
+  "devDependencies": {}
+}
