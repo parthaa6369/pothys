@@ -1,0 +1,42 @@
+{
+  "name": "@pothys/auth",
+  "version": "1.0.0",
+  "description": "Authentication package for pothys microservices",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "build:watch": "tsc --watch",
+    "clean": "rm -rf dist"
+  },
+  "dependencies": {
+    "@nestjs/jwt": "^10.2.0",
+    "@nestjs/passport": "^10.0.3",
+    "passport": "^0.7.0",
+    "passport-jwt": "^4.0.1",
+    "passport-local": "^1.0.0",
+    "bcrypt": "^6.0.0"
+  },
+  "devDependencies": {
+    "@types/passport": "^1.0.16",
+    "@types/passport-jwt": "^4.0.1",
+    "@types/passport-local": "^1.0.38",
+    "@types/bcrypt": "^6.0.0"
+  },
+  "peerDependencies": {
+    "@nestjs/config": "^4.0.2",
+    "@nestjs/common": "^11.0.1",
+    "@nestjs/core": "^11.0.1",
+    "reflect-metadata": "^0.2.2",
+    "rxjs": "^7.8.1"
+  },
+  "keywords": [
+    "nestjs",
+    "authentication",
+    "jwt",
+    "guards",
+    "microservices"
+  ],
+  "author": "riyaz ahmed",
+  "license": "MIT"
+}
